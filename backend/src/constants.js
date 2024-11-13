@@ -1,0 +1,2 @@
+const DB_NAME="CAR-MANAGEMENT-DATABASE"
+module.exports={DB_NAME}
