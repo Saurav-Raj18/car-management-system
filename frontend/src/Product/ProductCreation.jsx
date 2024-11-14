@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { Button, Form, Card, Col, Row, Container } from 'react-bootstrap';
+<<<<<<< HEAD
+=======
+import axios from 'axios';
+>>>>>>> c92ab21b (modified backend part)
 
 const ProductCreation = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+<<<<<<< HEAD
     const [image, setImage] = useState(null);
     const [cars, setCars] = useState([
         { id: 1, title: 'Tesla Model S', imageUrl: 'https://via.placeholder.com/400x250', description: 'Electric sedan with autopilot.' },
@@ -24,6 +29,43 @@ const ProductCreation = () => {
         const file = e.target.files[0];
         if (file) {
             setImage(URL.createObjectURL(file));
+=======
+    const [image, setImage] = useState([]);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const formData = {
+            title: title,
+            description: description,
+            image: image
+        }
+        console.log(formData)
+
+        try {
+            const response = await axios.post('http://localhost:4000/api/v1/carpost/cars', formData, {
+                withCredentials: true,
+            });
+
+            // Handle success response from the server
+            console.log('Car created successfully:', response.data);
+
+            // Clear form fields after successful submission
+            setTitle('');
+            setDescription('');
+            setImage(null);
+        } catch (err) {
+            // Handle error if the post request fails
+            console.error('Error creating car:', err);
+        }
+    };
+
+    const handleImageUpload = (e) => {
+        const file = e.target.files[0]; // Get the file object
+        console.log(URL.createObjectURL(file))
+        if (file) {
+            // Append the file to the images array
+            setImage((prevImages) => [...prevImages, URL.createObjectURL(file)]);
+>>>>>>> c92ab21b (modified backend part)
         }
     };
 
@@ -73,11 +115,15 @@ const ProductCreation = () => {
                                 />
                             </Form.Group>
 
+<<<<<<< HEAD
                             <Button
                                 type="submit"
                                 variant="primary"
                                 className="w-100"
                             >
+=======
+                            <Button type="submit" variant="primary" className="w-100">
+>>>>>>> c92ab21b (modified backend part)
                                 Create Car
                             </Button>
                         </Form>

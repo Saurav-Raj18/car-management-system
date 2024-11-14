@@ -10,6 +10,10 @@ import Protectedroute from './Component/route/Protectedroute';
 import { useDispatch } from 'react-redux';
 import { loginUser } from './Component/Redux/actions';
 import Logout from './Register/Logout';
+<<<<<<< HEAD
+=======
+import EditProduct from './Product/ProductEdit';
+>>>>>>> c92ab21b (modified backend part)
  
 
 function App() {
@@ -42,6 +46,10 @@ function App() {
                     <Route path="/register" element={<Register />} />
                     <Route path="/home" element={<Protectedroute><ProductList /></Protectedroute>} />
                     <Route path="/create" element={<Protectedroute><ProductCreation /></Protectedroute>} />
+<<<<<<< HEAD
+=======
+                    <Route path="/edit/:id" element={<Protectedroute><EditProduct /></Protectedroute>} />
+>>>>>>> c92ab21b (modified backend part)
                     <Route path="/product/:id" element={<Protectedroute><ProductDetail /></Protectedroute>} />
                     <Route path="/logout" element={<Protectedroute><Logout /></Protectedroute>} />
 
