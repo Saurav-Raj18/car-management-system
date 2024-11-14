@@ -67,6 +67,7 @@ const getCar = async (req, res) => {
 
 // Update car route
 const updateCar = async (req, res) => {
+    console.log("hi")
     try {
         const { id } = req.params;
         const { title, description, tags, image } = req.body;
@@ -75,16 +76,15 @@ const updateCar = async (req, res) => {
         if (!car) {
             return res.status(404).json({ message: 'Car not found or not authorized.' });
         }
-
+ 
         if (image && image.length > 10) {
-            return res.status(400).json({ message: 'You can upload up to 10 image only.' });
+            return res.status(400).json({ message: 'You can upload up to 10 images only.' });
         }
 
         car.title = title || car.title;
         car.description = description || car.description;
-        car.tags = tags ? tags.split(',') : car.tags;
         car.image = image || car.image;
-
+        m
         await car.save();
         res.status(200).json(car);
     } catch (err) {
@@ -92,7 +92,6 @@ const updateCar = async (req, res) => {
         res.status(500).json({ message: 'Server error. Could not update car.' });
     }
 };
-
 // Delete car route
 const deleteCar = async (req, res) => {
     try {
@@ -104,9 +103,9 @@ const deleteCar = async (req, res) => {
         }
 
         res.status(200).json({ message: 'Car deleted successfully.' });
-    } catch (err) {
+    } catch (err) {m
         console.error(err);
-        res.status(500).json({ message: 'Server error. Could not delete car.' });
+        res.status(500).json({ message: 'Server merror. Could not delete car.' });
     }
 };
 

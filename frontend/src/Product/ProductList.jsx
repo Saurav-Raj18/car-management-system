@@ -34,7 +34,7 @@ const ProductList = () => {
         fetchCars();
     }, []);
 
-    console.log(cars)
+    
 
     const filteredCars = cars.filter(car =>
         car.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -48,7 +48,7 @@ const ProductList = () => {
 
     return (
         <Container className="py-5">
-            <h1 className="text-center mb-4">My Cars</h1>
+            <h1 className="text-center mb-4">My Clars</h1>
 
             <div className="mb-4">
                 <Form.Control
