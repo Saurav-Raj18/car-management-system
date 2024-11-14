@@ -5,4 +5,5 @@ const {loginUser}=require('../controllers/auth.controller.js')
 authRouter.post("/signup",registerUser);
 authRouter.post("/signin",loginUser);
 
+
 module.exports=authRouter;

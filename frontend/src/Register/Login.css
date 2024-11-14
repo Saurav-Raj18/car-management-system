@@ -1,0 +1,107 @@
+.login-container {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    margin-left: 5rem;
+    background-image: url('');
+    background-size: cover;
+    background-position: center;
+}
+
+.login-form {
+    display: inline-flex;
+    padding: 3.625rem 3.25rem 2.9375rem 3.25rem;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.login-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.login-title {
+    font-family: Degular Display Demo;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.03125rem;
+}
+
+.login-button {
+    color: #FFF;
+    text-align: center;
+    font-family: Degular Display Demo;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.05625rem;
+    display: flex;
+    width: 23.5rem;
+    height: 3rem;
+    padding: 1rem 1.875rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    border-radius: 0.5rem;
+    background: #7a55ff;
+    border: none;
+    margin-top: 2rem;
+}
+
+.login-content input {
+    display: flex;
+    width: 23.5rem;
+    height: 3rem;
+    padding: 1rem 1.875rem 1rem 1.5rem;
+    align-items: center;
+    gap: 0.625rem;
+    border-radius: 0.5rem;
+    border: 1px solid #5D5D5D;
+}
+
+.login-content label {
+
+    display: block;
+    margin: 14px 0 4px;
+    color: #0d0c22;
+    font: 1rem bold;
+    font-size: medium;
+
+}
+
+@media (max-width: 768px) {
+    .login-form {
+        padding: 2rem;
+        margin-left: 4rem;
+    }
+
+    .login-content input,
+    .login-button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .login-title {
+        font-size: 1.5rem;
+    }
+
+    .login-form {
+        padding: 1.5rem;
+        border-radius: 1rem;
+        margin-left: 4rem;
+    }
+
+    .login-content input,
+    .login-button {
+        font-size: 0.875rem;
+        height: 2.5rem;
+    }
+}

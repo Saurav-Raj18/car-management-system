@@ -1,103 +1,100 @@
 const { Car } = require('../models/car.model');
-const { asyncHandler } = require('../utils/asyncHandler.js');
-const { ApiError } = require('../utils/apiError.js');
-const { apiResponse } = require('../utils/apiResponse.js');
-const { upload } = require('../utils/upload'); // Import the upload middleware
 
-// Add Car
-const addCar = asyncHandler(async (req, res) => {
-    // Use multer's upload middleware to handle file uploads
-   // console.log(upload)
-    upload.array('images', 10)(req, res, async (err) => {
-        if (err) {
-            return res.status(400).json({ success: false, message: 'Error in file upload', error: err.message });
-        }
-
-        // Log the request body and uploaded files
-        console.log(req.body); // Includes title, description, tags
-       // console.log(req.files); // Includes uploaded files
-
-        // Extract the car details and images
-        const { title, description, tags } = req.body;
-        const images = req.files.map(file => file.path); // Extract file paths from uploaded files
+// Create car route
+const addCar = async (req, res) => {
+    try {
+        const { title, description, tags, images } = req.body;
 
         if (!images || images.length === 0) {
-            return res.status(400).send('No images uploaded');
+            return res.status(400).json({ message: 'At least one image URL is required.' });
         }
 
-        // Create the new car object and save it in the database
-        const car = await Car.create({
+        if (images.length > 10) {
+            return res.status(400).json({ message: 'You can upload up to 10 images only.' });
+        }
+
+        if (!req.user || !req.user._id) {
+            return res.status(401).json({ message: 'User authentication failed.' });
+        }
+
+        const newCar = new Car({
             title,
             description,
-            tags,
+            tags: tags ? tags.split(',') : [],
             images,
-            user: req.user._id, // Assuming req.user contains the authenticated user's ID
+            user: req.user._id,
         });
 
-        // Respond with success and the car details
-        res.status(201).json({
-            success: true,
-            data: car,
-            message: 'Car added successfully'
-        });
-    });
-});
+        await newCar.save();
+        res.status(201).json(newCar);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error. Could not save car.' });
+    }
+};
 
-// View All Cars
-const viewCars = asyncHandler(async (req, res) => {
-    const cars = await Car.find({ user: req.user._id });
-    res.status(200).json({ success: true, data: cars });
-});
+const getCar = async (req, res) => {
+    try {
+        const userId = req.user._id;  // Assume req.user is populated by authentication middleware
 
-// Search Cars
-const searchCars = asyncHandler(async (req, res) => {
-    const { keyword } = req.query;
-    const cars = await Car.find({
-        user: req.user._id,
-        $or: [
-            { title: { $regex: keyword, $options: 'i' } },
-            { description: { $regex: keyword, $options: 'i' } },
-            { tags: { $regex: keyword, $options: 'i' } }
-        ]
-    });
-    res.status(200).json({ success: true, data: cars });
-});
+       // console.log(req)
+        // Find all cars where the 'user' field matches the logged-in user
+        const userCars = await Car.find({ user: userId });
 
-// Get Car by ID
-const getCarById = asyncHandler(async (req, res) => {
-    const car = await Car.findById(req.params.id);
-    if (!car || car.user.toString() !== req.user._id.toString()) throw new ApiError(404, 'Car not found');
-    res.status(200).json({ success: true, data: car });
-});
+        if (userCars.length === 0) {
+            return res.status(404).json({ message: 'No cars found for this user.' });
+        }
+        
+        res.status(200).json(userCars);
+    } catch (err) {
+        console.error('Error fetching user cars:', err);
+        res.status(500).json({ message: 'Server error. Could not retrieve cars.' });
+    }
+}
 
-// Update Car
-const updateCar = asyncHandler(async (req, res) => {
-    // Use multer's upload middleware for handling file uploads
-    upload.array('images', 10)(req, res, async (err) => {
-        if (err) {
-            return res.status(400).json({ success: false, message: 'Error in file upload', error: err.message });
+// Update car route
+const updateCar = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { title, description, tags, images } = req.body;
+
+        const car = await Car.findOne({ _id: id, user: req.user._id });
+        if (!car) {
+            return res.status(404).json({ message: 'Car not found or not authorized.' });
         }
 
-        const { title, description, tags } = req.body;
-        const images = req.files?.map(file => file.path);
+        if (images && images.length > 10) {
+            return res.status(400).json({ message: 'You can upload up to 10 images only.' });
+        }
 
-        const updateData = { title, description, tags, ...(images && { images }) };
-        const car = await Car.findOneAndUpdate(
-            { _id: req.params.id, user: req.user._id },
-            updateData,
-            { new: true }
-        );
+        car.title = title || car.title;
+        car.description = description || car.description;
+        car.tags = tags ? tags.split(',') : car.tags;
+        car.images = images || car.images;
 
-        if (!car) throw new ApiError(404, 'Car not found');
-        res.status(200).json({ success: true, data: car, message: 'Car updated successfully' });
-    });
-});
+        await car.save();
+        res.status(200).json(car);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error. Could not update car.' });
+    }
+};
 
-// Delete Car
-const deleteCar = asyncHandler(async (req, res) => {
-    const car = await Car.findOneAndDelete({ _id: req.params.id, user: req.user._id });
-    if (!car) throw new ApiError(404, 'Car not found');
-    res.status(200).json({ success: true, message: 'Car deleted successfully' });
-});
+// Delete car route
+const deleteCar = async (req, res) => {
+    try {
+        const { id } = req.params;
 
-module.exports = { addCar, viewCars, searchCars, getCarById, updateCar, deleteCar };
+        const car = await Car.findOneAndDelete({ _id: id, user: req.user._id });
+        if (!car) {
+            return res.status(404).json({ message: 'Car not found or not authorized.' });
+        }
+
+        res.status(200).json({ message: 'Car deleted successfully.' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error. Could not delete car.' });
+    }
+};
+
+module.exports = { addCar, updateCar, deleteCar, getCar };
