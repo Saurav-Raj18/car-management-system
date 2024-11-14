@@ -1,6 +1,22 @@
-# Ignore node_modules folder
+# Node modules
 node_modules/
 
-# Optionally, ignore cache or build folders
+# Build output
+/build
+/.next
+/out
+
+# Environment variables for frontend (if separate from backend)
+.env.local
+.env.development
+.env.production
+
+# Temporary files
+*.log
+
+# Editor/IDE settings
+.vscode/
+.idea/
+
+# Cache files
 .cache/
-dist/
