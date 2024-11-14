@@ -49,7 +49,7 @@ const Register = (props) => {
         try {
 
             if (Object.keys(err).length === 0) {
-                const response = await axios.post('http://localhost:4000/api/v1/auth/signup', {
+                const response = await axios.post('https://car-management-system-7w9u.vercel.app/api/v1/auth/signup', {
                     username: String(values.name),
                     email: String(values.email),
                     password: String(values.password)
