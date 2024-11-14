@@ -5,7 +5,7 @@ const cookieParser=require('cookie-parser')
 
 app.use(express.json());
 app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:4000'],
+    origin: ['https://car-management-system-7w9u.vercel.app/'],
     credentials: true,
 
 }));
