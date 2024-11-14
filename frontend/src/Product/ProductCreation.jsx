@@ -12,7 +12,7 @@ const ProductCreation = () => {
         const formData = {
             title: title,
             description: description,
-            image: image
+            image:image
         }
         console.log(formData)
 
@@ -23,7 +23,7 @@ const ProductCreation = () => {
 
             // Handle success response from the server
             console.log('Car created successfully:', response.data);
-
+           // image
             // Clear form fields after successful submission
             setTitle('');
             setDescription('');
@@ -36,6 +36,7 @@ const ProductCreation = () => {
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0]; // Get the file object
+    
         console.log(URL.createObjectURL(file))
         if (file) {
             // Append the file to the images array

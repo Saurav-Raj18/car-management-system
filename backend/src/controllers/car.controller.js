@@ -3,14 +3,15 @@ const { Car } = require('../models/car.model');
 // Create car route
 const addCar = async (req, res) => {
     try {
-        const { title, description, tags, images } = req.body;
+        console.log(req.body)
+        const { title, description, tags, image} = req.body;
 
-        if (!images || images.length === 0) {
+        if (!image || image.length === 0) {
             return res.status(400).json({ message: 'At least one image URL is required.' });
         }
 
-        if (images.length > 10) {
-            return res.status(400).json({ message: 'You can upload up to 10 images only.' });
+        if (image.length > 10) {
+            return res.status(400).json({ message: 'You can upload up to 10 image only.' });
         }
 
         if (!req.user || !req.user._id) {
@@ -21,9 +22,10 @@ const addCar = async (req, res) => {
             title,
             description,
             tags: tags ? tags.split(',') : [],
-            images,
+            image,
             user: req.user._id,
         });
+        console.log(newCar)
 
         await newCar.save();
         res.status(201).json(newCar);
@@ -32,7 +34,18 @@ const addCar = async (req, res) => {
         res.status(500).json({ message: 'Server error. Could not save car.' });
     }
 };
-
+const getCarDetail = async (req, res) => {
+    try {
+        const car = await Car.findById(req.params.id);
+        if (!car) {
+            return res.status(404).json({ message: 'Car not found' });
+        }
+        res.json(car);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
 const getCar = async (req, res) => {
     try {
         const userId = req.user._id;  // Assume req.user is populated by authentication middleware
@@ -56,21 +69,21 @@ const getCar = async (req, res) => {
 const updateCar = async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, description, tags, images } = req.body;
+        const { title, description, tags, image } = req.body;
 
         const car = await Car.findOne({ _id: id, user: req.user._id });
         if (!car) {
             return res.status(404).json({ message: 'Car not found or not authorized.' });
         }
 
-        if (images && images.length > 10) {
-            return res.status(400).json({ message: 'You can upload up to 10 images only.' });
+        if (image && image.length > 10) {
+            return res.status(400).json({ message: 'You can upload up to 10 image only.' });
         }
 
         car.title = title || car.title;
         car.description = description || car.description;
         car.tags = tags ? tags.split(',') : car.tags;
-        car.images = images || car.images;
+        car.image = image || car.image;
 
         await car.save();
         res.status(200).json(car);
@@ -97,4 +110,4 @@ const deleteCar = async (req, res) => {
     }
 };
 
-module.exports = { addCar, updateCar, deleteCar, getCar };
+module.exports = { addCar, updateCar, deleteCar, getCar,getCarDetail };

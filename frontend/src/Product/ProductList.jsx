@@ -66,7 +66,7 @@ const ProductList = () => {
                         <Card className="shadow-sm rounded-lg">
                             <Card.Img
                                 variant="top"
-                                src={car.images[0]}
+                                src={car.image[0]}
                                 alt={car.title}
                                 className="img-fluid"
                                 style={{ height: '200px', objectFit: 'cover' }}
