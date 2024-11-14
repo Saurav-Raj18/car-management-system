@@ -1,29 +1,45 @@
 import React, { useState } from 'react';
 import { Button, Form, Card, Col, Row, Container } from 'react-bootstrap';
+import axios from 'axios';
 
 const ProductCreation = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [image, setImage] = useState(null);
-    const [cars, setCars] = useState([
-        { id: 1, title: 'Tesla Model S', imageUrl: 'https://via.placeholder.com/400x250', description: 'Electric sedan with autopilot.' },
-        { id: 2, title: 'Ford Mustang', imageUrl: 'https://via.placeholder.com/400x250', description: 'Classic muscle car with a powerful engine.' },
-        { id: 3, title: 'Toyota Supra', imageUrl: 'https://via.placeholder.com/400x250', description: 'Sports car known for its speed.' },
-    ]);
+    const [image, setImage] = useState([]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const newCar = { id: Date.now(), title, description, imageUrl: image };
-        setCars([...cars, newCar]);
-        setTitle('');
-        setDescription('');
-        setImage(null);
+        const formData = {
+            title: title,
+            description: description,
+            image: image
+        }
+        console.log(formData)
+
+        try {
+            const response = await axios.post('http://localhost:4000/api/v1/carpost/cars',formData, {
+                withCredentials: true,
+            });
+
+            // Handle success response from the server
+            console.log('Car created successfully:', response.data);
+
+            // Clear form fields after successful submission
+            setTitle('');
+            setDescription('');
+            setImage(null);
+        } catch (err) {
+            // Handle error if the post request fails
+            console.error('Error creating car:', err);
+        }
     };
 
     const handleImageUpload = (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files[0]; // Get the file object
+        console.log(URL.createObjectURL(file))
         if (file) {
-            setImage(URL.createObjectURL(file));
+            // Append the file to the images array
+            setImage((prevImages) => [...prevImages, URL.createObjectURL(file)]);
         }
     };
 
@@ -73,11 +89,7 @@ const ProductCreation = () => {
                                 />
                             </Form.Group>
 
-                            <Button
-                                type="submit"
-                                variant="primary"
-                                className="w-100"
-                            >
+                            <Button type="submit" variant="primary" className="w-100">
                                 Create Car
                             </Button>
                         </Form>

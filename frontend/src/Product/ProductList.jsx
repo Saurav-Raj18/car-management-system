@@ -34,6 +34,8 @@ const ProductList = () => {
         fetchCars();
     }, []);
 
+    console.log(cars)
+
     const filteredCars = cars.filter(car =>
         car.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         car.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -64,7 +66,7 @@ const ProductList = () => {
                         <Card className="shadow-sm rounded-lg">
                             <Card.Img
                                 variant="top"
-                                src={car.imageUrl}
+                                src={car.images[0]}
                                 alt={car.title}
                                 className="img-fluid"
                                 style={{ height: '200px', objectFit: 'cover' }}
