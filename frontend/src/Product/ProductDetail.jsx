@@ -13,7 +13,7 @@ const ProductDetail = () => {
     useEffect(() => {
         const fetchCarDetail = async () => {
             try {
-                const response = await axios.get(`https://car-management-system-7w9u.vercel.app/api/v1/carpost/cars/${id}`,{ withCredentials: true});
+                const response = await axios.get(`http://car-management-system-7w9u.vercel.app/api/v1/carpost/cars/${id}`,{ withCredentials: true});
                 console.log(response.data)
                 setCar(response.data); // Set the car data from the response
                 setLoading(false); // Set loading to false once data is fetched
@@ -29,7 +29,7 @@ const ProductDetail = () => {
     const handleDelete = async () => {
         try {
             // Logic to delete the car (make an API request to delete the car)
-            await axios.delete(`https://car-management-system-7w9u.vercel.app/api/v1/carpost/cars/${car._id}`,{
+            await axios.delete(`http://car-management-system-7w9u.vercel.app/api/v1/carpost/cars/${car._id}`,{
                 withCredentials:true
             });
             console.log(`Car with ID ${car._id} deleted`);

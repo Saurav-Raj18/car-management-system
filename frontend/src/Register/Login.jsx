@@ -19,7 +19,7 @@ const Login = (props) => {
             setError('Please enter both email and password.');
             return;
         }
-        const response = await axios.post('https://car-management-system-7w9u.vercel.app/api/v1/auth/signin', {
+        const response = await axios.post('http://localhost:4000/api/v1/auth/signin', {
             email: String(email),
             password: String(pass)
         },{ withCredentials: true }).then((res) => {

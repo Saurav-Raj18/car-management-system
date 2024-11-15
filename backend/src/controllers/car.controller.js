@@ -2,38 +2,49 @@ const { Car } = require('../models/car.model');
 
 // Create car route
 const addCar = async (req, res) => {
-    try {
-        console.log(req.body)
-        const { title, description, tags, image} = req.body;
+     try {
+         let images = []
+         const { title, description, tags } = req.body;
+ 
+ 
+         let BASE_URL = process.env.BACKEND_URL;
+         if (process.env.NODE_ENV === 'production') {
+             BASE_URL = `${req.protocol}://${req.get('host')}`
+ 
+         }
+ 
+         
+         if (req.files.length > 0) {
+             req.files.forEach(file => {
+                 let url = `${BASE_URL}/uploads/${file.originalname}`
+                 images.push(url)
+             })
+         }
+ 
+         if (!images || images.length === 0) {
+             return res.status(400).json({ message: 'At least one image URL is required.' });
+         }
+ 
+         if (!req.user || !req.user._id) {
+             return res.status(401).json({ message: 'User authentication failed.' });
+         }
+         const newCar = new Car({
+             title,
+             description,
+             tags: tags ? tags.split(',') : [],
+             images:images,
+             user: req.user._id,
+         });
+ 
+ 
+         await newCar.save();
+         res.status(201).json(newCar);
+     } catch (err) {
+         console.error(err);
+         res.status(500).json({ message: 'Server error. Could not save car.' });
+     }
+ };
 
-        if (!image || image.length === 0) {
-            return res.status(400).json({ message: 'At least one image URL is required.' });
-        }
-
-        if (image.length > 10) {
-            return res.status(400).json({ message: 'You can upload up to 10 image only.' });
-        }
-
-        if (!req.user || !req.user._id) {
-            return res.status(401).json({ message: 'User authentication failed.' });
-        }
-
-        const newCar = new Car({
-            title,
-            description,
-            tags: tags ? tags.split(',') : [],
-            image,
-            user: req.user._id,
-        });
-        console.log(newCar)
-
-        await newCar.save();
-        res.status(201).json(newCar);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error. Could not save car.' });
-    }
-};
 const getCarDetail = async (req, res) => {
     try {
         const car = await Car.findById(req.params.id);

@@ -5,29 +5,36 @@ import axios from 'axios';
 const ProductCreation = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [image, setImage] = useState([]);
+    const [images, setImages] = useState([]); // Use plural name 'images' for multiple files
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formData = {
-            title: title,
-            description: description,
-            image:image
-        }
-        console.log(formData)
+
+        let formData = new FormData();
+        formData.append('title', title);
+        formData.append('description', description);
+
+        // Append each image file correctly (assuming `images` is an array of files)
+        images.forEach((file) => {
+            formData.append('image', file);  // 'image' is the field name that multer expects
+        });
+        console.log(images)
 
         try {
-            const response = await axios.post('https://car-management-system-7w9u.vercel.app/api/v1/carpost/cars',formData, {
+            const response = await axios.post('http://car-management-system-7w9u.vercel.app/api/v1/carpost/cars', formData, {
                 withCredentials: true,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
             });
 
             // Handle success response from the server
             console.log('Car created successfully:', response.data);
-           // image
+
             // Clear form fields after successful submission
             setTitle('');
             setDescription('');
-            setImage(null);
+            setImages([]); // Reset images after submission
         } catch (err) {
             // Handle error if the post request fails
             console.error('Error creating car:', err);
@@ -35,13 +42,8 @@ const ProductCreation = () => {
     };
 
     const handleImageUpload = (e) => {
-        const file = e.target.files[0]; // Get the file object
-    
-        console.log(URL.createObjectURL(file))
-        if (file) {
-            // Append the file to the images array
-            setImage((prevImages) => [...prevImages, URL.createObjectURL(file)]);
-        }
+        const files = Array.from(e.target.files); // Convert FileList to an array
+        setImages(files); // Update the images state with the selected files
     };
 
     return (
@@ -52,20 +54,28 @@ const ProductCreation = () => {
                     <Card className="p-4 shadow-sm">
                         <Form onSubmit={handleSubmit}>
                             <Form.Group className="mb-3">
-                                <Form.Label>Upload Image</Form.Label>
+                                <Form.Label>Upload Image(s)</Form.Label>
                                 <Form.Control
                                     type="file"
                                     accept="image/*"
+                                    multiple // Allow selecting multiple files
                                     onChange={handleImageUpload}
                                     className="mb-3"
                                 />
-                                {image && (
-                                    <img
-                                        src={image}
-                                        alt="Preview"
-                                        className="img-fluid rounded mb-3"
-                                        style={{ height: '200px', objectFit: 'cover' }}
-                                    />
+
+                                {/* Render previews of selected images */}
+                                {images.length > 0 && (
+                                    <div className="image-previews">
+                                        {images.map((image, index) => (
+                                            <img
+                                                key={index}
+                                                src={URL.createObjectURL(image)}
+                                                alt={`Preview ${index + 1}`}
+                                                className="img-fluid rounded mb-3"
+                                                style={{ height: '200px', objectFit: 'cover' }}
+                                            />
+                                        ))}
+                                    </div>
                                 )}
                             </Form.Group>
 
@@ -93,7 +103,7 @@ const ProductCreation = () => {
                             <Button type="submit" variant="primary" className="w-100">
                                 Create Car
                             </Button>
-                        </Form>m
+                        </Form>
                     </Card>
                 </Col>
             </Row>
