@@ -21,7 +21,7 @@ const ProductCreation = () => {
         console.log(images)
 
         try {
-            const response = await axios.post('http://car-management-system-7w9u.vercel.app/api/v1/carpost/cars', formData, {
+            const response = await axios.post('https://car-management-system-7w9u.vercel.app/api/v1/carpost/cars', formData, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data',
