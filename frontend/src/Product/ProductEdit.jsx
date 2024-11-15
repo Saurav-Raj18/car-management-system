@@ -51,7 +51,7 @@ const EditProduct = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`https://car-management-system-7w9u.vercel.app/api/v1/carpost/cars/${id}`, car, { withCredentials: true});
+            const response = await axios.put(`http://car-management-system-fg2x.vercel.app/api/v1/carpost/cars/${id}`, car, { withCredentials: true});
             console.log('Car updated successfully:', response.data);
             navigate(`/product/${id}`); // Redirect to the product details page after edit
         } catch (err) {
