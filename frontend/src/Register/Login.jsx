@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import './Login.css'
 import { loginUser } from '../Component/Redux/actions';
+import { Link } from 'react-router-dom';
 
 const Login = (props) => {
     const navigate = useNavigate();
@@ -65,7 +66,9 @@ const Login = (props) => {
                     </form>
                     <div className='m-3 d-flex justify-content-center'>
                         <button className='text-center text-dark mb-3 btn' >
-                            Don't have an account? <a style={{ color: " #7a55ff" }} href='/register' className='mx-1'>Register here</a>
+                            Don't have an account?  <Link to="/register" style={{ color: "#7a55ff" }} className="mx-1">
+                            Register here
+                        </Link>
                         </button>
                     </div>
                 </div>
