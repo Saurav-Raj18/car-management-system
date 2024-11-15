@@ -13,7 +13,7 @@ const ProductDetail = () => {
     useEffect(() => {
         const fetchCarDetail = async () => {
             try {
-                const response = await axios.get(`https://car-management-system-7w9u.vercel.app/api/v1/carpost/cars/${id}`,{ withCredentials: true});
+                const response = await axios.get(`http://car-management-system-fg2x.vercel.app/api/v1/carpost/cars/${id}`,{ withCredentials: true});
                 console.log(response.data)
                 setCar(response.data); // Set the car data from the response
                 setLoading(false); // Set loading to false once data is fetched
