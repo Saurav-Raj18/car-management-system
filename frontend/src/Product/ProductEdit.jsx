@@ -89,7 +89,7 @@ const EditProduct = () => {
                             <Form.Label>Image</Form.Label>
                             <div>
                                 <img
-                                    src={car.imageUrl}••••••••••••
+                                    src={car.imageUrl}
                                     alt="Current Car"
                                     style={{ width: '100px', height: 'auto', marginBottom: '10px' }}
                                 />
