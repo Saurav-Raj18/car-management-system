@@ -5,7 +5,7 @@ import ProductList from './Product/ProductList';
 import ProductCreation from './Product/ProductCreation';
 import ProductDetail from './Product/ProductDetail';
 import Login from './Register/Login';
-import Register from './Register/Register';
+import Register from './Register/Register.jsx';
 import Protectedroute from './Component/route/Protectedroute';
 import { useDispatch } from 'react-redux';
 import { loginUser } from './Component/Redux/actions';
