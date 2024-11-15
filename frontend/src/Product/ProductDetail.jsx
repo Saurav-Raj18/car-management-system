@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Card } from 'react-bootstrap';
-import axios from 'axios';
+import axiosInstance from '../config/axiosConfig';
+
 
 const ProductDetail = () => {
     const { id } = useParams(); // Get the ID from the URL
@@ -13,7 +14,7 @@ const ProductDetail = () => {
     useEffect(() => {
         const fetchCarDetail = async () => {
             try {
-                const response = await axios.get(`https://car-management-system-bvkv.onrender.com/api/v1/carpost/cars/${id}`,{ withCredentials: true});
+                const response = await axiosInstance.get(`api/v1/carpost/cars/${id}`,{ withCredentials: true});
                 console.log(response.data)
                 setCar(response.data); // Set the car data from the response
                 setLoading(false); // Set loading to false once data is fetched
@@ -29,7 +30,7 @@ const ProductDetail = () => {
     const handleDelete = async () => {
         try {
             // Logic to delete the car (make an API request to delete the car)
-            await axios.delete(`https://car-management-system-bvkv.onrender.com/api/v1/carpost/cars/${car._id}`,{
+            await axiosInstance.delete(`api/v1/carpost/cars/${car._id}`,{
                 withCredentials:true
             });
             console.log(`Car with ID ${car._id} deleted`);

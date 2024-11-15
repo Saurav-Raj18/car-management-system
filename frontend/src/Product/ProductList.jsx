@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Col, Row, Form, Container, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../config/axiosConfig';
 
 const ProductList = () => {
     // Move useNavigate to the top of the component
@@ -18,7 +18,7 @@ const ProductList = () => {
 
     useEffect(() => {
         const fetchCars = async () => {
-            axios.get('https://car-management-system-bvkv.onrender.com/api/v1/carpost/cars', {
+            axiosInstance.get('api/v1/carpost/cars', {
                 withCredentials: true
             }).then((response) => {
                 setCars(response.data);
@@ -60,7 +60,7 @@ const ProductList = () => {
                 />
             </div>
 
-            <Row xs={1} md={2} lg={3} className="g-4">https://car-management-system-fg2x.vercel.app
+            <Row xs={1} md={2} lg={3} className="g-4">
                 {filteredCars.map((car) => (
                     <Col key={car._id}>
                         <Card className="shadow-sm rounded-lg">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { Button, Form, Card } from 'react-bootstrap';
+import axiosInstance from '../config/axiosConfig';
 
 const EditProduct = () => {
     const { id } = useParams(); // Get the car ID from the URL
@@ -11,7 +11,7 @@ const EditProduct = () => {
         imageUrl: [],
         description: ''
     });
-    const [image, setImage] = useState([])
+    const [, setImage] = useState([])
     
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -27,7 +27,7 @@ const EditProduct = () => {
     useEffect(() => {
         const fetchCarDetails = async () => {
             try {
-                const response = await axios.get(`https://car-management-system-bvkv.onrender.com/api/v1/carpost/cars/${id}`,{ withCredentials: true});
+                const response = await axiosInstance.get(`api/v1/carpost/cars/${id}`,{ withCredentials: true});
                 setCar(response.data); // Set the car data
                 setLoading(false);
             } catch (err) {
@@ -51,7 +51,7 @@ const EditProduct = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`https://car-management-system-bvkv.onrender.com/api/v1/carpost/cars/${id}`, car, { withCredentials: true});
+            const response = await axiosInstance.put(`api/v1/carpost/cars/${id}`, car, { withCredentials: true});
             console.log('Car updated successfully:', response.data);
             navigate(`/product/${id}`); // Redirect to the product details page after edit
         } catch (err) {

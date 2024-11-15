@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios';
+import React, {  useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import './Login.css'
 import { loginUser } from '../Component/Redux/actions';
 import { Link } from 'react-router-dom';
+import axiosInstance from '../config/axiosConfig';
+
 
 const Login = (props) => {
     const navigate = useNavigate();
@@ -20,7 +21,7 @@ const Login = (props) => {
             setError('Please enter both email and password.');
             return;
         }
-        const response = await axios.post('https://car-management-system-bvkv.onrender.com/api/v1/auth/signin', {
+        const response = await axiosInstance.post('api/v1/auth/signin', {
             email: String(email),
             password: String(pass)
         },{ withCredentials: true }).then((res) => {

@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import Validate from './Validate';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../Component/Redux/actions';
+import axiosInstance from '../config/axiosConfig';
 
-const Register = (props) => {
+const Register = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const inputValues = [{
@@ -49,7 +49,7 @@ const Register = (props) => {
         try {
 
             if (Object.keys(err).length === 0) {
-                const response = await axios.post('https://car-management-system-bvkv.onrender.com/api/v1/auth/signup', {
+                const response = await axiosInstance.post('api/v1/auth/signup', {
                     username: String(values.name),
                     email: String(values.email),
                     password: String(values.password)
@@ -59,8 +59,8 @@ const Register = (props) => {
                         alert("Error");
 
                     })
-                // console.log(response)
-                if (response && response.status === 200 || response.status === 201) {
+    
+                if ((response && response.status === 200) || response.status === 201) {
                     // Registration successful
                     localStorage.setItem('authToken', response.data.token);
                     dispatch(loginUser(response.data.user));  // Dispatch user info to Redux state

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Form, Card, Col, Row, Container } from 'react-bootstrap';
-import axios from 'axios';
+import axiosInstance from '../config/axiosConfig';
 
 const ProductCreation = () => {
     const [title, setTitle] = useState('');
@@ -17,7 +17,7 @@ const ProductCreation = () => {
         console.log(formData)
 
         try {
-            const response = await axios.post('https://car-management-system-bvkv.onrender.com/api/v1/carpost/cars',formData, {
+            const response = await axiosInstance.post('api/v1/carpost/cars',formData, {
                 withCredentials: true,
             });
 
@@ -67,7 +67,7 @@ const ProductCreation = () => {
                                         style={{ height: '200px', objectFit: 'cover' }}
                                     />
                                 )}
-                            </Form.Group>https://car-management-system-fg2x.vercel.app/
+                            </Form.Group>
 
                             <Form.Group className="mb-3">
                                 <Form.Label>Car Title</Form.Label>
