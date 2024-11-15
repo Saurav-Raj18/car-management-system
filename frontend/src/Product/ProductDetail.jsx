@@ -29,7 +29,7 @@ const ProductDetail = () => {
     const handleDelete = async () => {
         try {
             // Logic to delete the car (make an API request to delete the car)
-            await axios.delete(`https://car-management-system-7w9u.vercel.app/api/v1/carpost/cars/${car._id}`,{
+            await axios.delete(`http://car-management-system-fg2x.vercel.app/api/v1/carpost/cars/${car._id}`,{
                 withCredentials:true
             });
             console.log(`Car with ID ${car._id} deleted`);
