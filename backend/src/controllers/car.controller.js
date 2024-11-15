@@ -3,7 +3,7 @@ const { Car } = require('../models/car.model');
 // Create car route
 const addCar = async (req, res) => {
     try {
-        console.log(req.body)
+       // console.log(req.body)
         const { title, description, tags, image} = req.body;
 
         if (!image || image.length === 0) {
@@ -25,12 +25,12 @@ const addCar = async (req, res) => {
             image,
             user: req.user._id,
         });
-        console.log(newCar)
+        //console.log(newCar)
 
         await newCar.save();
         res.status(201).json(newCar);
     } catch (err) {
-        console.error(err);
+       // console.error(err);
         res.status(500).json({ message: 'Server error. Could not save car.' });
     }
 };
@@ -42,7 +42,7 @@ const getCarDetail = async (req, res) => {
         }
         res.json(car);
     } catch (err) {
-        console.error(err);
+       // console.error(err);
         res.status(500).json({ message: 'Server error' });
     }
 }
