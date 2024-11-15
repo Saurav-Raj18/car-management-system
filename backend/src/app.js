@@ -4,11 +4,12 @@ const cors=require('cors');
 const cookieParser=require('cookie-parser')
 
 app.use(express.json());
-app.use(cors({
-    origin: ['https://car-management-system-orpin.vercel.app/'],
-    credentials: true,
+// app.use(cors({
+//   //  origin: ['https://car-management-system-orpin.vercel.app/'],
+//     credentials: true,
 
-}));
+// }));
+app.use(cors());
 app.use(express.json({limit:"160kb"})) //accept json in backend
 app.use(express.urlencoded({extended:true,limit:"160kb"}))//for url 
 app.use(express.static("public"))
