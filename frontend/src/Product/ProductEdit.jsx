@@ -16,7 +16,7 @@ const EditProduct = () => {
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setImage(URL.createObjectURL(file)); // Store the selected file
+            setImage(URL.createObjectURL(file)); // Store the selected ile
         }
     };
 
@@ -89,7 +89,7 @@ const EditProduct = () => {
                             <Form.Label>Image</Form.Label>
                             <div>
                                 <img
-                                    src={car.imageUrl}
+                                    src={car.imageUrl}••••••••••••
                                     alt="Current Car"
                                     style={{ width: '100px', height: 'auto', marginBottom: '10px' }}
                                 />
