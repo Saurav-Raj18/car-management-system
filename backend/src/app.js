@@ -5,7 +5,7 @@ const cookieParser=require('cookie-parser')
 
 app.use(express.json());
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://car-management-system-orpin.vercel.app'], // allowed origins
+    origin: ['https://car-management-system-orpin.vercel.app','http://localhost:3000' ], // allowed origins
     credentials: true, // enable cookies and credentials in requests
   }));
 // app.use(cors());
