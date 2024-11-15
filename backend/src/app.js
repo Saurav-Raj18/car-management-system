@@ -5,8 +5,8 @@ const cookieParser=require('cookie-parser')
 
 app.use(express.json());
 app.use(cors({
-    origin: '*',  // Allow all origins (CORS free)
-    credentials: true,  // This allows sending cookies along with requests
+    origin: ['https://car-management-chi.vercel.app/'],  // trusted origins
+    credentials: true,  // enable cookies and credentials
 }));
 
 
