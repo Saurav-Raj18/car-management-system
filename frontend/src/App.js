@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 import { HelmetProvider } from 'react-helmet-async';
-import { BrowserRouter as Router, Route, Routes, Link, useNavigate, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import ProductList from './Product/ProductList';
 import ProductCreation from './Product/ProductCreation';
 import ProductDetail from './Product/ProductDetail';
