@@ -21,7 +21,7 @@ const ProductCreation = () => {
                 withCredentials: true,
             });
 
-            // Handle success response from the server
+            // Handle success response from the serve
             console.log('Car created successfully:', response.data);
            // image
             // Clear form fields after successful submission
