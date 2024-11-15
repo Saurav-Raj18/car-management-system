@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import Validate from './Validate';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../Component/Redux/actions';
+import axiosInstance from '../config/axios';
 
 const Register = (props) => {
     const navigate = useNavigate();
@@ -49,7 +49,7 @@ const Register = (props) => {
         try {
 
             if (Object.keys(err).length === 0) {
-                const response = await axios.post('https://car-management-system-bvkv.onrender.com/api/v1/auth/signup', {
+                const response = await axiosInstance.post('api/v1/auth/signup', {
                     username: String(values.name),
                     email: String(values.email),
                     password: String(values.password)
