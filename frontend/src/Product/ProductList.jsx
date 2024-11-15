@@ -18,7 +18,7 @@ const ProductList = () => {
 
     useEffect(() => {
         const fetchCars = async () => {
-            axios.get('http://car-management-system-fg2x.vercel.app/api/v1/carpost/cars', {
+            axios.get('https://car-management-system-fg2x.vercel.app/api/v1/carpost/cars', {
                 withCredentials: true
             }).then((response) => {
                 setCars(response.data);
