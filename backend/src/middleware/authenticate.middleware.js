@@ -6,7 +6,7 @@ const {User} = require('../models/user.models');
 
 exports.authenticate=catcherror(async(req,res,next)=>{
     const token=req.cookies.access_token
-    //console.log(req.cookies.access_token)
+    //console.log(req.cookies.access_toke)
     if(!token){
         return next(new errorhandler("login first",401))
     }
