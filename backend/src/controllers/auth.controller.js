@@ -3,7 +3,7 @@ const { ApiError } = require('../utils/apiError.js')
 const { User } = require('../models/user.models.js')
 const { apiResponse } = require('../utils/apiResponse.js')
 
-var bcrypt = require('bcryptjs');//imported bcrypt library for password encryption
+var bcrypt = require('bcryptjs');//imported bcrypt library for password encyption
 var jwt = require('jsonwebtoken');//jwt is bearer token for authentication
 const sendtoken = require('../utils/jwt.js');
 
